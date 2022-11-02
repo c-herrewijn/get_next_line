@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/02 13:37:54 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/02 14:14:21 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	set_line_len(t_buff *buff)
 		i = buff->line_start;
 		while (buff->start[i] != '\n' && i < buff->filled_len - 1)
 			i++;
-		buff->line_len = i + 1 - buff->line_start;
+		if (buff->start[i] == '\n' || buff->eof_flag == 1)
+			buff->line_len = i + 1 - buff->line_start;
 	}
 	else
 		buff->line_len = 0;
