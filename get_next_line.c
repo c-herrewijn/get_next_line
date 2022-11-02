@@ -6,37 +6,38 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/10/31 19:55:35 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/02 10:44:35 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-/*
-scenarios: 
-- end line not yet found
-- one end line in buffer
-- multiple lines in buffer
-*/
 char	*get_next_line(int fd)
 {
-	static t_buff	buff = {NULL, 0, 0, 0, 0};
+	static t_buff	buff = {NULL, 0, 0, 0, 0, 0};
+	int				read_chars;
 
-	while (buff.eof_flag == 0 && buff.line_length == 0)
+	while (buff.line_len == 0)
 	{
-		if (buff.total_size < buff.filled_len + BUFFER_SIZE)
-			re_alloc_buff(&buff);
-		read(fd, buff.start + buff.filled_len, BUFFER_SIZE);
-		buff.filled_len += BUFFER_SIZE;
+		if (buff.eof_flag == 0)
+		{
+			if (buff.total_size < buff.filled_len + BUFFER_SIZE)
+				re_alloc_buff(&buff);
+			read_chars = read(fd, buff.start + buff.filled_len, BUFFER_SIZE);
+			if (read_chars < BUFFER_SIZE)
+			{
+				buff.eof_flag = 1;
+				buff.total_size = buff.total_size + read_chars - BUFFER_SIZE;
+			}
+			if (read_chars > 0)
+				buff.filled_len += read_chars;
+		}
 		set_line_len(&buff);
-		if (buff.line_length > 0)
+		if (buff.line_start >= buff.total_size)
 			break ;
 	}
-	if (buff.line_length > 0)
-	{
+	if (buff.line_len > 0)
 		return (create_line(&buff));
-	}
 	else
 		return (NULL);
 }

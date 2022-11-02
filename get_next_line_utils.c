@@ -6,32 +6,52 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/10/31 19:57:37 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/02 10:52:06 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /*
-returns the position of the end of the line char in a buffer
-0 implies the buffer contains no line end
+sets the position of the end of the line char in a buffer
+0 implies the buffer contains no line end yet
 */
 void	set_line_len(t_buff *buff)
 {
 	size_t	i;
 
+	if (buff->line_start <= buff->total_size)
+	{
+		i = buff->line_start;
+		while (buff->start[i] != '\n' && i < buff->filled_len)
+			i++;
+		if (buff->start[i] == '\n')
+			buff->line_len = i + 1 - buff->line_start;
+		if (buff->eof_flag == 1 && buff->line_start == buff->filled_len - 1)
+			buff->line_len = i - buff->line_start;
+	}
+	else
+		buff->line_len = 0;
+}
+
+char	*create_line(t_buff *buff)
+{
+	size_t	i;
+	char	*str;
+
+	str = malloc((buff->line_len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
-	while (
-		buff->start[i] != '\n'
-		&& buff->start[i] != '\0'
-		&& buff->start[i] != EOF
-		&& i < buff->filled_len
-	)
+	while (i < buff->line_len)
+	{
+		str[i] = buff->start[i + buff->line_start];
 		i++;
-	if (buff->start[i] == EOF)
-		buff->eof_flag = 1;
-	if (i != buff->filled_len)
-		buff->line_length = i;
+	}
+	str[i] = '\0';
+	buff->line_start += buff->line_len;
+	buff->line_len = 0;
+	return (str);
 }
 
 /*
@@ -64,26 +84,4 @@ void	re_alloc_buff(t_buff *buff)
 			free(buff->start);
 		buff->start = NULL;
 	}
-}
-
-char	*create_line(t_buff *buff)
-{
-	size_t	i;
-	char	*str;
-
-	str = malloc((buff->line_length + 1) * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (i < buff->line_length)
-	{
-		str[i] = buff->start[i];
-		i++;
-	}
-	str[i] = '\0';
-	buff->start += buff->line_length;
-	buff->total_size -= buff->line_length;
-	buff->filled_len -= buff->line_length;
-	buff->line_length = 0;
-	return (str);
 }

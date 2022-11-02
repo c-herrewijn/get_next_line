@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:33:55 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/10/31 19:56:03 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/02 10:23:06 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,20 @@
 # endif
 
 /*
-start = start next line
+start		= start of malloc volume
+total_size	= total malloc volume
+filled_len	= number of chars stored in malloc volume
+line_start	= index of start of the line
+line_len	= length of the line to return, only set when the full line is read
+eof_flag	= put to 1 if EOF has been read
 */
 typedef struct s_buff
 {
 	char	*start;
 	size_t	total_size;
 	size_t	filled_len;
-	size_t	line_length;
+	size_t	line_start;
+	size_t	line_len;
 	size_t	eof_flag;
 }	t_buff;
 
