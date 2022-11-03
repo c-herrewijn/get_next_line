@@ -6,17 +6,19 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/02 14:14:21 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/03 16:24:05 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	read_chars(t_buff *buff, int fd)
+int		read_chars(t_buff *buff, int fd)
 {
 	int	read_chars;
 
 	read_chars = read(fd, buff->start + buff->filled_len, BUFFER_SIZE);
+	if (read_chars < 0)
+		return (read_chars);
 	if (read_chars < BUFFER_SIZE)
 	{
 		buff->eof_flag = 1;
@@ -24,6 +26,7 @@ void	read_chars(t_buff *buff, int fd)
 	}
 	if (read_chars > 0)
 		buff->filled_len += read_chars;
+	return (read_chars);
 }
 
 /*
@@ -61,8 +64,6 @@ char	*create_line(t_buff *buff)
 		i++;
 	}
 	str[i] = '\0';
-	buff->line_start += buff->line_len;
-	buff->line_len = 0;
 	return (str);
 }
 

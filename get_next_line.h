@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:33:55 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/02 14:12:53 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/03 16:26:18 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ char	*get_next_line(int fd);
 void	set_line_len(t_buff *buff);
 void	re_alloc_buff(t_buff *buff);
 char	*create_line(t_buff *buff);
-void	read_chars(t_buff *buff, int fd);
+int		read_chars(t_buff *buff, int fd);
 
 #endif
