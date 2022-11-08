@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/04 12:42:09 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/08 21:55:23 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,26 @@ char	*get_next_line(int fd)
 	static char	*fd_part = NULL;
 	char		*line_str;
 	int			i_linebreak;
+	int			final_read_len;
 
-	i_linebreak = 0;
 	line_str = NULL;
-	if (fd_part != NULL)
+	i_linebreak = get_line_break(fd_part);
+	if (i_linebreak == -1)
+	{		
+		final_read_len = read_from_file(fd, &fd_part);
 		i_linebreak = get_line_break(fd_part);
-	if (i_linebreak >= 0)
+		if (final_read_len > 0
+			&& final_read_len < BUFFER_SIZE && i_linebreak == -1)
+		{
+			line_str = create_line_str(fd_part, gnl_strlen(fd_part));
+		}
+	}
+	if (i_linebreak != -1)
 	{
 		line_str = create_line_str(fd_part, i_linebreak);
-		fd_part = realloc_fd_part(fd_part, i_linebreak);
+		fd_part = realloc_fd_part(fd_part, i_linebreak + 1, 0);
 	}
-	else
-	{
-		// aditional reads to find next line
-	}
+	if (gnl_strlen(fd_part) == gnl_strlen(line_str))
+		free(fd_part);
+	return (line_str);
 }
