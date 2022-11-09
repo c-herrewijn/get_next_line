@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 16:15:07 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/09 17:01:47 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*create_line_str(char *fd_part, int i_linebreak)
 	int		i;
 
 	i = 0;
-	line_str = malloc((i_linebreak + 1) * sizeof(char));
+	line_str = malloc((i_linebreak + 2) * sizeof(char));
 	if (line_str == NULL)
 		return (NULL);
 	while (i <= i_linebreak)
@@ -55,7 +55,7 @@ char	*realloc_fd_part(char *fd_part, int front, int back)
 	char	*new_fd_part;
 
 	count = gnl_strlen(fd_part);
-	new_fd_part = malloc(count + 1 - front + back);
+	new_fd_part = malloc((count + 1 - front + back) * sizeof(char));
 	if (new_fd_part == NULL)
 	{
 		free(fd_part);
@@ -91,7 +91,7 @@ int	read_from_file(int fd, char **fd_part)
 		if (*fd_part == NULL)
 			return (-1);
 		read_len = read(fd, *fd_part + str_len, BUFFER_SIZE);
-		if (read_len <= 0 && gnl_strlen(*fd_part) == 0)
+		if ((read_len <= 0 && gnl_strlen(*fd_part) == 0) || read_len < 0)
 		{
 			free(*fd_part);
 			*fd_part = NULL;
