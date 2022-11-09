@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 14:12:51 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/09 16:15:07 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	read_from_file(int fd, char **fd_part)
 		if (*fd_part == NULL)
 			return (-1);
 		read_len = read(fd, *fd_part + str_len, BUFFER_SIZE);
-		if (read_len <= 0)
+		if (read_len <= 0 && gnl_strlen(*fd_part) == 0)
 		{
 			free(*fd_part);
 			*fd_part = NULL;

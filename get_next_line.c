@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 14:10:58 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/09 16:10:55 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ char	*get_next_line(int fd)
 	{		
 		final_read_len = read_from_file(fd, &fd_part);
 		i_linebreak = get_line_break(fd_part);
-		if (final_read_len > 0
+		if (final_read_len >= 0
 			&& final_read_len < BUFFER_SIZE && i_linebreak == -1)
 		{
 			line_str = create_line_str(fd_part, gnl_strlen(fd_part));
+			free(fd_part);
+			fd_part = NULL;
 		}
 	}
 	if (i_linebreak != -1)
