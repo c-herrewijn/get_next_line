@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 17:01:47 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/09 17:17:12 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	get_line_break(char *fd_part)
 	return (-1);
 }
 
-char	*create_line_str(char *fd_part, int i_linebreak)
+char	*create_line_str(char *fd_part, int len)
 {
 	char	*line_str;
 	int		i;
 
 	i = 0;
-	line_str = malloc((i_linebreak + 2) * sizeof(char));
+	line_str = malloc((len + 1) * sizeof(char));
 	if (line_str == NULL)
 		return (NULL);
-	while (i <= i_linebreak)
+	while (i < len)
 	{
 		line_str[i] = fd_part[i];
 		i++;

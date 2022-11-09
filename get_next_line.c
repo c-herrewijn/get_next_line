@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 16:10:55 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/09 17:14:55 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_next_line(int fd)
 	}
 	if (i_linebreak != -1)
 	{
-		line_str = create_line_str(fd_part, i_linebreak);
+		line_str = create_line_str(fd_part, i_linebreak + 1);
 		fd_part = realloc_fd_part(fd_part, i_linebreak + 1, 0);
 	}
 	return (line_str);
