@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/09 17:17:12 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/11 11:37:08 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,32 @@ int	get_line_break(char *fd_part)
 	return (-1);
 }
 
-char	*create_line_str(char *fd_part, int len)
+char	*create_line_str(char **fd_part, int len)
 {
 	char	*line_str;
 	int		i;
 
+	if (len == 0)
+		return (NULL);
 	i = 0;
 	line_str = malloc((len + 1) * sizeof(char));
 	if (line_str == NULL)
+	{
+		free (*fd_part);
+		*fd_part = NULL;
 		return (NULL);
+	}
 	while (i < len)
 	{
-		line_str[i] = fd_part[i];
+		line_str[i] = (*fd_part)[i];
 		i++;
 	}
 	line_str[i] = '\0';
+	if (get_line_break(*fd_part) == -1)
+	{
+		free(*fd_part);
+		*fd_part = NULL;
+	}
 	return (line_str);
 }
 
@@ -91,7 +102,7 @@ int	read_from_file(int fd, char **fd_part)
 		if (*fd_part == NULL)
 			return (-1);
 		read_len = read(fd, *fd_part + str_len, BUFFER_SIZE);
-		if ((read_len <= 0 && gnl_strlen(*fd_part) == 0) || read_len < 0)
+		if ((read_len == 0 && gnl_strlen(*fd_part) == 0) || read_len < 0)
 		{
 			free(*fd_part);
 			*fd_part = NULL;
