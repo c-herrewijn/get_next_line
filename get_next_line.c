@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/13 11:29:49 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/13 14:26:16 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static int	read_file(int fd, t_file_part *file_part)
 	char	*read_str;
 	size_t	malloc_size;
 
+	read_len = BUFFER_SIZE;
 	malloc_size = 1 + ft_strlen(file_part->content);
-	while (file_part->eof_flag == 0 && ft_strchr(file_part->content, '\n') == NULL)
+	while (ft_strchr(file_part->content, '\n') == NULL && read_len == BUFFER_SIZE)
 	{
 		malloc_size += BUFFER_SIZE;
 		read_str = ft_calloc(malloc_size, sizeof(char));
@@ -38,8 +39,6 @@ static int	read_file(int fd, t_file_part *file_part)
 			free (read_str);
 			return (read_len);
 		}
-		if (read_len < BUFFER_SIZE)
-			file_part->eof_flag = 1;
 		free (file_part->content);
 		file_part->content = read_str;
 	}
@@ -57,6 +56,7 @@ static char	*create_next_line(t_file_part *file_part)
 	char	*new_filepart;
 	size_t	len_next_line;
 
+	new_filepart = NULL;
 	if (ft_strchr(file_part->content, '\n') != NULL)
 		len_next_line = ft_strchr(file_part->content, '\n') - file_part->content + 1;
 	else
@@ -65,13 +65,7 @@ static char	*create_next_line(t_file_part *file_part)
 	if (next_line == NULL)
 		return (NULL);
 	if (len_next_line < ft_strlen(file_part->content))
-	{
 		new_filepart = ft_substr(file_part->content, len_next_line, ft_strlen(file_part->content));
-		if (new_filepart == NULL)
-			return (NULL);
-	}
-	else
-		new_filepart = NULL;
 	free(file_part->content);
 	file_part->content = new_filepart;
 	return (next_line);
@@ -85,8 +79,7 @@ char	*get_next_line(int fd)
 
 	read_len = 0;
 	next_line = NULL;
-	if (file_part.eof_flag == 0 && ft_strchr(file_part.content, '\n') == NULL)
-		read_len = read_file(fd, &file_part);
+	read_len = read_file(fd, &file_part);
 	if (read_len < 0)
 	{
 		free (file_part.content);
