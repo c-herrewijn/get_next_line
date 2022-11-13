@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:08 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/12 21:47:53 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/13 11:12:29 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,27 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	}
 	*dst = 0;
 	return (src_len);
+}
+
+/*
+Allocates bytes based on object size and nr. of objects
+Makes sure the allocated volume is empty
+*/
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*str;
+	size_t	i;
+
+	str = malloc(count * size);
+	if (str == NULL)
+		return (str);
+	i = 0;
+	while (i < (count * size))
+	{
+		str[i] = '\0';
+		i++;
+	}
+	return (str);
 }
 
 /*
