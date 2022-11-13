@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/13 11:20:09 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/13 11:29:49 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	read_file(int fd, t_file_part *file_part)
 		if (file_part->content != NULL)
 			ft_strlcpy(read_str, file_part->content, malloc_size);
 		read_len = read(fd, read_str + ft_strlen(file_part->content), BUFFER_SIZE);
-		if (read_len < 0)
+		if (read_len <= 0)
 		{
 			free (read_str);
 			return (read_len);
