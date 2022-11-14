@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/14 14:03:48 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 14:14:05 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*get_next_line(int fd)
 	char		*next_line;
 
 	if (fd >= OPEN_MAX)
-		return(NULL);
+		return (NULL);
 	read_len = 0;
 	next_line = NULL;
 	read_len = read_file(fd, &store[fd]);

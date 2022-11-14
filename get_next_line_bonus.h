@@ -6,12 +6,12 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:33:55 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/14 14:03:10 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 14:13:31 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stddef.h>
 
