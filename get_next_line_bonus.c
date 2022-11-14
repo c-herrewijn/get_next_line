@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/14 12:52:02 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 14:03:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 
 /*
 adds data from file to store unit eof or '\n' has been found
@@ -74,25 +75,27 @@ static char	*create_next_line(char **store)
 
 char	*get_next_line(int fd)
 {
-	static char	*store = NULL;
+	static char	*store[OPEN_MAX];
 	int			read_len;
 	char		*next_line;
 
+	if (fd >= OPEN_MAX)
+		return(NULL);
 	read_len = 0;
 	next_line = NULL;
-	read_len = read_file(fd, &store);
-	if (read_len < 0 && store != NULL)
+	read_len = read_file(fd, &store[fd]);
+	if (read_len < 0 && store[fd] != NULL)
 	{
-		free (store);
-		store = NULL;
+		free (store[fd]);
+		store[fd] = NULL;
 	}
-	if (store != NULL)
+	if (store[fd] != NULL)
 	{
-		next_line = create_next_line(&store);
-		if (next_line == NULL && store != NULL)
+		next_line = create_next_line(&store[fd]);
+		if (next_line == NULL && store[fd] != NULL)
 		{
-			free (store);
-			store = NULL;
+			free (store[fd]);
+			store[fd] = NULL;
 		}
 	}
 	return (next_line);
