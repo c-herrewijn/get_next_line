@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:33:55 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/13 11:12:46 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 12:29:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
-
-typedef struct s_file_part
-{
-	char	*content;
-	size_t	eof_flag;
-}	t_file_part;
 
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
