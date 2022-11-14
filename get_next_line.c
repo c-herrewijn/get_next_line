@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/14 12:28:46 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 12:37:29 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	read_file(int fd, char **store)
 	while (ft_strchr(*store, '\n') == NULL && read_len == BUFFER_SIZE)
 	{
 		malloc_size += BUFFER_SIZE;
-		read_str = ft_calloc(malloc_size, sizeof(char));
+		read_str = malloc(malloc_size * sizeof(char));
 		if (read_str == NULL)
 			return (-1);
 		if (*store != NULL)
@@ -39,6 +39,7 @@ static int	read_file(int fd, char **store)
 			free (read_str);
 			return (read_len);
 		}
+		*(read_str + ft_strlen(*store) + read_len) = '\0';
 		free (*store);
 		*store = read_str;
 	}
