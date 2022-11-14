@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/30 14:34:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2022/11/14 12:37:29 by cherrewi      ########   odam.nl         */
+/*   Updated: 2022/11/14 12:52:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_next_line(int fd)
 	read_len = 0;
 	next_line = NULL;
 	read_len = read_file(fd, &store);
-	if (read_len < 0)
+	if (read_len < 0 && store != NULL)
 	{
 		free (store);
 		store = NULL;
@@ -89,7 +89,7 @@ char	*get_next_line(int fd)
 	if (store != NULL)
 	{
 		next_line = create_next_line(&store);
-		if (next_line == NULL)
+		if (next_line == NULL && store != NULL)
 		{
 			free (store);
 			store = NULL;
