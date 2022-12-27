@@ -1,0 +1,6 @@
+.vscode/*
+/debug/*
+*.out
+*.gch
+*.o
+*.a
